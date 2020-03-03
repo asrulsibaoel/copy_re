@@ -40,7 +40,7 @@ class DecoderMethod:
 
 class Config:
     def __init__(self, config_filename=None, cell_name='lstm'):
-        home = '/home/kata-pc/asrul//'
+        home = '/home/kata-pc/asrul/'
         if config_filename is not None:
             print('config filename: %s' % config_filename)
             cfg = json.load(open(config_filename, 'r'))
