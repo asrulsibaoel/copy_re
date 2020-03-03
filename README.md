@@ -1,4 +1,4 @@
-## UPDATE: This paper is part of the *Multiple Relation Extraction* task. More information can be found in [Multiple Relational Facts Extraction](https://github.com/xiangrongzeng/multi_re). Fork project for python 3.x Support  
+## UPDATE: This paper is part of the *Multiple Relation Extraction* task. More information can be found in [Multiple Relational Facts Extraction](https://github.com/xiangrongzeng/multi_re). [Fork project for python 3.x Support]  
 
 
 This code is for ACL2018 paper "Extracting Relational Facts by an End-to-End Neural Model with Copy Mechanism"
