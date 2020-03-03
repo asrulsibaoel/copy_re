@@ -17,14 +17,14 @@ def run_filter():
     saved_data = utils.filter_out(data)
     f = open(Const.origin_train_filtered_filename, 'w')
     utils.write_data(f, saved_data)
-    print 'filter finish, saved in %s' % Const.origin_train_filtered_filename
+    print('filter finish, saved in %s' % Const.origin_train_filtered_filename)
 
 
 def run_split():
     data = utils.read_json(Const.origin_train_filtered_filename)
-    print 'splitting'
+    print('splitting')
     test_data, train_data, valid_data = utils.split(data)
-    print 'saving'
+    print('saving')
     utils.write_data(open(Const.raw_test_filename, 'w'), test_data)
     utils.write_data(open(Const.raw_train_filename, 'w'), train_data)
     utils.write_data(open(Const.raw_valid_filename, 'w'), valid_data)
@@ -46,12 +46,12 @@ def run_static():
 
 
 def run_word_vectors():
-    print 'reading nyt_vec.bin'
+    print('reading nyt_vec.bin')
     all_w2vec = utils.read_vec_bin()
     words2id = utils.load_words()
-    print 'prepare w2vec'
+    print('prepare w2vec')
     w2vec = utils.word_vectors(words2id, all_w2vec)
-    print 'dumping'
+    print('dumping')
     json.dump(w2vec, open(Const.words_id2vector_filename, 'w'))
 
 
@@ -78,9 +78,9 @@ def split_triple_type():
         if utils.is_multi_label(triples, is_relation_first=False): multi_label_data.append(a_data)
         if utils.is_over_lapping(triples, is_relation_first=False): over_lapping_data.append(a_data)
 
-    print 'Number of normal triple data %s' % len(normal_triple_data)
-    print 'Number of multi triple data %s' % len(multi_label_data)
-    print 'Number of overlapping triple data %s' % len(over_lapping_data)
+    print('Number of normal triple data %s' % len(normal_triple_data))
+    print('Number of multi triple data %s' % len(multi_label_data))
+    print('Number of overlapping triple data %s' % len(over_lapping_data))
     utils.write_data(open(const.raw_test_normal_triple_filename, 'w'), normal_triple_data)
     utils.write_data(open(const.raw_test_multi_label_filename, 'w'), multi_label_data)
     utils.write_data(open(const.raw_test_overlapping_filename, 'w'), over_lapping_data)
@@ -116,11 +116,11 @@ def split_triple_number():
     utils.write_data(open(const.raw_test_3_triple_filename, 'w'), triples_size_3_data)
     utils.write_data(open(const.raw_test_4_triple_filename, 'w'), triples_size_4_data)
     utils.write_data(open(const.raw_test_5_triple_filename, 'w'), triples_size_5_data)
-    print 'Sentence-1-Triple: %d' % len(triples_size_1_data)
-    print 'Sentence-2-Triple: %d' % len(triples_size_2_data)
-    print 'Sentence-3-Triple: %d' % len(triples_size_3_data)
-    print 'Sentence-4-Triple: %d' % len(triples_size_4_data)
-    print 'Sentence-5-Triple: %d' % len(triples_size_5_data)
+    print('Sentence-1-Triple: %d' % len(triples_size_1_data))
+    print('Sentence-2-Triple: %d' % len(triples_size_2_data))
+    print('Sentence-3-Triple: %d' % len(triples_size_3_data))
+    print('Sentence-4-Triple: %d' % len(triples_size_4_data))
+    print('Sentence-5-Triple: %d' % len(triples_size_5_data))
 
 
 def run_static_relation_freq():

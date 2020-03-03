@@ -219,9 +219,9 @@ def _reverse_dict_(a_dict):
 
 
 def visualize(sents_id, gold, predict, files_name, config, is_relation_first=True):
-    print 'Visualizing ...'
-    print config.words2id_filename
-    print config.relations2id_filename
+    print('Visualizing ...')
+    print(config.words2id_filename)
+    print(config.relations2id_filename)
     words2id = json.load(open(config.words2id_filename, 'r'))
     relations2id = json.load(open(config.relations2id_filename, 'r'))
     id2words = _reverse_dict_(words2id)

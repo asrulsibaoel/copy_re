@@ -120,7 +120,7 @@ def read_vec_bin():
         word = segs[0]
         vector = [float(x) for x in segs[1:]]
         all_w2vec[word] = vector
-    print 'size %d' % len(all_w2vec)
+    print('size %d' % len(all_w2vec))
     return all_w2vec
 
 
@@ -149,7 +149,7 @@ def static_relations(data):
     relations = list(relations)
     relations.insert(0, 'None')
     json.dump(relations, open(Const.relations2id_filename, 'w'))
-    print 'relation number %d' % len(relations)
+    print('relation number %d' % len(relations))
     return list(relations)
 
 
@@ -173,7 +173,7 @@ def static_words(data):
         words.update(set(sent_words))
     words = list(words)
     words.insert(0, 'UNK')
-    print 'words number %d' % len(words)
+    print('words number %d' % len(words))
     return list(words)
 
 
@@ -221,11 +221,11 @@ def filter_out(data, flag=False):
                 elif flag:
                     saved_data.append(a_data)
         except Exception:
-            print a_data['sentText']
+            print(a_data['sentText'])
         if (i + 1) * 1.0 % 10000 == 0:
-            print 'finish %f, %d/%d' % ((i + 1.0) / len(data), (i + 1), len(data))
+            print('finish %f, %d/%d' % ((i + 1.0) / len(data), (i + 1), len(data)))
 
-    print 'instance number %d/%d' % (len(saved_data), len(data))
+    print('instance number %d/%d' % (len(saved_data), len(data)))
     return saved_data
 
 

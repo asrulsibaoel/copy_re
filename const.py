@@ -21,7 +21,7 @@ class DataSet():
         elif dataset_name == DataSet.WEBNLG:
             DataSet.name = DataSet.WEBNLG
         else:
-            print 'Dataset %s is not exist!!!!!!!!!! ' % dataset_name
+            print('Dataset %s is not exist!!!!!!!!!! ' % dataset_name)
             exit()
 
 
@@ -40,9 +40,9 @@ class DecoderMethod:
 
 class Config:
     def __init__(self, config_filename=None, cell_name='lstm'):
-        home = '/home/sunder/'
+        home = '/home/kata-pc/asrul//'
         if config_filename is not None:
-            print'config filename: %s' % config_filename
+            print('config filename: %s' % config_filename)
             cfg = json.load(open(config_filename, 'r'))
             self.decoder_method = DecoderMethod.set(cfg["decoder_method"])
             self.train_method = TrainMethod.NLL_METHOD
@@ -64,7 +64,7 @@ class Config:
                                                   self.cell_name, self.encoder_num_units, self.decoder_num_units)
             self.runner_path = os.path.join(model_home, runner)
         else:
-            print 'Config file must be provided.'
+            print('Config file must be provided.')
             raise
 
         data_home = os.path.join(home, 'data', DataSet.name)

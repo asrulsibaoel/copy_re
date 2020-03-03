@@ -281,7 +281,7 @@ class Prepare:
     @staticmethod
     def remove_tone(s):
         s = unicodedata.normalize('NFD', s)
-        cmb_chrs = dict.fromkeys(c for c in range(sys.maxunicode) if unicodedata.combining(unichr(c)))
+        cmb_chrs = dict.fromkeys(c for c in range(sys.maxunicode) if unicodedata.combining(chr(c)))
         return s.translate(cmb_chrs)
 
     def load_data(self, name):
@@ -292,11 +292,11 @@ class Prepare:
         elif name.lower() == 'valid':
             filename = self.config.valid_filename
         else:
-            print 'name must be "train" or "test", but is %s' % name
+            print('name must be "train" or "test", but is %s' % name)
             raise ValueError
-        print 'loading %s' % filename
+        print('loading %s' % filename)
         data = json.load(open(filename, 'r'))
-        print 'data size %d' % (len(data[0]))
+        print('data size %d' % (len(data[0])))
         return data
 
 
@@ -327,7 +327,7 @@ class NYTPrepare(Prepare):
                     sent_id.append(w_id)
                 except:
                     is_save = False
-                    print '[%s] is not in words2id' % w
+                    print('[%s] is not in words2id' % w)
             triples = a_data['relationMentions']
             triples_id = set()
             for triple in triples:
@@ -347,7 +347,7 @@ class NYTPrepare(Prepare):
                         triples_id.add(t_id)
                     except:
                         is_save = False
-                        print '[%s] or [%s] is not in words2id, relation is (%s)' % (m1, m2, label)
+                        print('[%s] or [%s] is not in words2id, relation is (%s)' % (m1, m2, label))
             if len(sent_id) <= self.config.max_sentence_length and is_save:
                 if flag and len(triples_id) == 0:  # this sentence has no triple and assign a  to it
                     triples_id.add(self.config.NA_TRIPLE)
@@ -362,13 +362,12 @@ class NYTPrepare(Prepare):
                     all_sent_id.append(sent_id)
                     all_sent_length.append(len(sent_id))
             if (i + 1) * 1.0 % 1000 == 0:
-                print 'finish %f, %d/%d, accept %d' % ((i + 1.0) / len(data), (i + 1), len(data), accept_count)
+                print('finish %f, %d/%d, accept %d' % ((i + 1.0) / len(data), (i + 1), len(data), accept_count))
 
         assert len(all_triples_id) == len(all_sent_id)
         assert len(all_sent_length) == len(all_sent_id)
-        print 'instance number %d/%d' % (len(all_sent_id), len(data))
-        print 'triples number max %d, min %d, ave %f' % (
-        max(triples_number), min(triples_number), np.mean(triples_number))
+        print('instance number %d/%d' % (len(all_sent_id), len(data)))
+        print('triples number max %d, min %d, ave %f' % (max(triples_number), min(triples_number), np.mean(triples_number)))
 
         return [all_sent_length, all_sent_id, all_triples_id]
 
@@ -380,18 +379,18 @@ class NYTPrepare(Prepare):
         words2id = self.load_words()
         relations2id = self.load_relations()
 
-        print 'processing train data'
+        print('processing train data')
         train_data = self.turn2id(train_data, words2id, relations2id)
         json.dump(train_data, open(self.config.train_filename, 'w'))
 
-        print 'processing test data'
+        print('processing test data')
         test_data = self.turn2id(test_data, words2id, relations2id)
         json.dump(test_data, open(self.config.test_filename, 'w'))
 
-        print 'processing valid data'
+        print('processing valid data')
         valid_data = self.turn2id(valid_data, words2id, relations2id)
         json.dump(valid_data, open(self.config.valid_filename, 'w'))
-        print 'success'
+        print('success')
 
     #   Above functions are processing raw data
     #   Below functions are prepare the feeding data
@@ -418,11 +417,11 @@ class NYTPrepare(Prepare):
             over_lapping_count += 1 if is_over_lapping(sent_triples) else 0
             # if is_normal_triple(sent_triples):
             #     print sent_triples
-        print 'Normal Count %d, Multi label Count %d, Overlapping Count %d' % (
-        normal_count, multi_label_count, over_lapping_count)
-        print 'Normal Rate %f, Multi label Rate %f, Overlapping Rate %f' % \
+        print('Normal Count %d, Multi label Count %d, Overlapping Count %d' % (
+                normal_count, multi_label_count, over_lapping_count))
+        print('Normal Rate %f, Multi label Rate %f, Overlapping Rate %f' % \
               (normal_count * 1.0 / len(all_triples_id), multi_label_count * 1.0 / len(all_triples_id),
-               over_lapping_count * 1.0 / len(all_triples_id))
+               over_lapping_count * 1.0 / len(all_triples_id)))
 
         triples_size_1, triples_size_2, triples_size_3, triples_size_4, triples_size_5 = 0, 0, 0, 0, 0
         count_le_5 = 0
@@ -440,10 +439,10 @@ class NYTPrepare(Prepare):
                 triples_size_5 += 1
             if len(triples) <= 5:
                 count_le_5 += 1
-        print 'Sentence number with 1, 2, 3, 4, >5 triplets: %d, %d, %d, %d, %d' % (triples_size_1, triples_size_2,
+        print('Sentence number with 1, 2, 3, 4, >5 triplets: %d, %d, %d, %d, %d' % (triples_size_1, triples_size_2,
                                                                                     triples_size_3, triples_size_4,
-                                                                                    triples_size_5)
-        print 'Sentence number with <= 5 triplets: %d' % count_le_5
+                                                                                    triples_size_5))
+        print('Sentence number with <= 5 triplets: %d' % count_le_5)
 
 
 class WebNLGPrepare(Prepare):

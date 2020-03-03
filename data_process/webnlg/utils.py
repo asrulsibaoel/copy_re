@@ -36,7 +36,7 @@ def combine_htmls(htmls):
 
 #  read html line by line, but not parser it
 def direct_read_html(filename):
-    print 'reading %s' % filename
+    print('reading %s' % filename)
     content = []
     with open(filename, 'r') as f:
         for line in f:
@@ -48,7 +48,7 @@ def write_list2file(content, filename):
     with open(filename, 'w') as f:
         for line in content:
             f.write(line)
-    print 'save to %s' % filename
+    print('save to %s' % filename)
 
 
 def parse_triple(entry):
@@ -67,9 +67,9 @@ def parse_triple(entry):
             triple[2] = relation
             triples.append(triple)
         except:
-            print c.string
-            print triple
-            print "============="
+            print(c.string)
+            print(triple)
+            print("=============")
     return triples
 
 
@@ -81,12 +81,12 @@ def parse_sentence(entry):
 
 
 def parse(html_doc):
-    print 'parsing html doc'
+    print('parsing html doc')
     triples_string = []
     sentences_string = []
     soup = BeautifulSoup(html_doc, 'html5lib')
     entries = soup.find_all('entry')
-    print 'entry number %d' % len(entries)
+    print('entry number %d' % len(entries))
     for entry in entries:
         triples_string.append(parse_triple(entry))
         sentences_string.append(parse_sentence(entry))
@@ -94,8 +94,8 @@ def parse(html_doc):
         assert len(triples_string) == len(entries)
         assert len(sentences_string) == len(entries)
     except:
-        print 'triples_string number %d' % len(triples_string)
-        print 'sentences_string number %d' % len(sentences_string)
+        print('triples_string number %d' % len(triples_string))
+        print('sentences_string number %d' % len(sentences_string))
     return sentences_string, triples_string
 
 
@@ -111,7 +111,7 @@ def static_relations(triples_string):
     relations2id = dict()
     for idx, r in enumerate(relations):
         relations2id[r] = idx
-    print 'relation number %d' % len(relations2id)
+    print('relation number %d' % len(relations2id))
     json.dump(relations2id, open(Const.relations2id_filename, 'w'), indent=True)
     return relation_words
 
@@ -133,7 +133,7 @@ def load_relations2id():
 
 def remove_tone(s):
     s = unicodedata.normalize('NFD', s)
-    cmb_chrs = dict.fromkeys(c for c in range(sys.maxunicode) if unicodedata.combining(unichr(c)))
+    cmb_chrs = dict.fromkeys(c for c in range(sys.maxunicode) if unicodedata.combining(chr(c)))
     return s.translate(cmb_chrs)
 
 
@@ -149,7 +149,7 @@ def static_words(sentences_words):
     words2id = dict()
     for idx, w in enumerate(words):
         words2id[w] = idx
-    print 'words number %d' % len(words2id)
+    print('words number %d' % len(words2id))
     json.dump(words2id, open(Const.words2id_filename, 'w'), indent=True)
     return words2id
 
@@ -194,10 +194,10 @@ def find_entity_position(sentences_words, triples_string):
         if len(instance_position_triples) != 0:
             valid_count += 1
         position_triples.append(instance_position_triples)
-    print 'valid instance number %d' % valid_count
+    print('valid instance number %d' % valid_count)
     if Const.triple_len == 5:
-        print 'multi words triple number %d, triples number %d' % (multi_words_triple_count, triple_count)
-        print 'entity length. AVE: %f, MAX: %d' % (np.mean(entity_len_static), np.max(entity_len_static))
+        print('multi words triple number %d, triples number %d' % (multi_words_triple_count, triple_count))
+        print('entity length. AVE: %f, MAX: %d' % (np.mean(entity_len_static), np.max(entity_len_static)))
     return position_triples
 
 
@@ -289,7 +289,7 @@ def turn_relation2id(relation, relations2id):
     if relation in relations2id:
         return relations2id[relation]
     else:
-        print 'Unknown relation: %s' % relation
+        print('Unknown relation: %s' % relation)
         return 0
 
 
@@ -310,8 +310,8 @@ def turn2id(sentences_words, position_triples):
                       else turn_relation2id(triples[i], relations2id) for i in range(len(triples))]
         sentence_triples_id.append(triples_id)
         sentences_length.append(len(sentence))
-    print 'average sentence number %.3f, max sentence number %d, min sentence number %d' % (
-        np.mean(sentences_length), max(sentences_length), min(sentences_length))
+    print('average sentence number %.3f, max sentence number %d, min sentence number %d' % (
+        np.mean(sentences_length), max(sentences_length), min(sentences_length)))
     return sentences_word_id, sentence_triples_id
 
 
@@ -325,12 +325,12 @@ def static_triples_info(sentences_triples):
             if i % 5 == 1 or i % 5 == 3:
                 if max_triple_len < v:
                     max_triple_len = v
-    print 'Instance number %d, triples number %d, average triple number %.3f, max triple number %d, min triple number %d' % (
-        len(triples_number), sum(triples_number), np.mean(triples_number), max(triples_number), min(triples_number))
-    print 'Entity max length %d' % max_triple_len
-    print 'Triple distribution: 1: %d, 2: %d, 3: %d, 4: %d, 5: %d, 6: %d, 7: %d' % (
+    print('Instance number %d, triples number %d, average triple number %.3f, max triple number %d, min triple number %d' % (
+        len(triples_number), sum(triples_number), np.mean(triples_number), max(triples_number), min(triples_number)))
+    print('Entity max length %d' % max_triple_len)
+    print('Triple distribution: 1: %d, 2: %d, 3: %d, 4: %d, 5: %d, 6: %d, 7: %d' % (
         triples_number.count(1), triples_number.count(2), triples_number.count(3), triples_number.count(4),
-        triples_number.count(5), triples_number.count(6), triples_number.count(7))
+        triples_number.count(5), triples_number.count(6), triples_number.count(7)))
 
 
 def split(sentences_words_id, sentences_triples_id):
@@ -467,7 +467,7 @@ def triples_type(sentence_triples_id):
             multi_count += 1
         if is_over_lapping(triples):
             overlap_count += 1
-    print 'Normal number %d, Multi-Label number %d, Overlapping number %d' % (normal_count, multi_count, overlap_count)
+    print('Normal number %d, Multi-Label number %d, Overlapping number %d' % (normal_count, multi_count, overlap_count))
 
 
 def read_vec_bin():
@@ -478,7 +478,7 @@ def read_vec_bin():
         word = segs[0]
         vector = [float(x) for x in segs[1:]]
         all_w2vec[word] = vector
-    print 'size %d' % len(all_w2vec)
+    print('size %d' % len(all_w2vec))
     return all_w2vec
 
 

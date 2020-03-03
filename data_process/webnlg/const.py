@@ -9,6 +9,7 @@ logger = logging.getLogger('mylogger')
 class Const:
     # triple_len == 3 meas triple is <entity1_end_position, entity_2_end_position, relation>
     triple_len = 3
+    folder = ''
     home = ''
     origin_train_folder = os.path.join(home, 'train')
     origin_dev_folder = os.path.join(home, 'dev')

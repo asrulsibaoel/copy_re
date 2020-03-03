@@ -27,9 +27,9 @@ def generate_origin_file():
                               [Const.origin_all_dev_filename, Const.origin_all_train_filename]):
         contents = []
         generate_origin_file_(name, contents)
-        print len(contents)
+        print(len(contents))
         content = utils.combine_htmls(contents)
-        print len(content)
+        print(len(content))
         utils.write_list2file(content, out_name)
 
 
@@ -67,7 +67,7 @@ def run_static_relation_freq(name):
 
 
 def prepare(name):
-    print name
+    print(name)
     if name == 'train':
         filename = Const.origin_all_train_filename
     if name == 'dev':
@@ -75,9 +75,9 @@ def prepare(name):
     if name == 'example':
         filename = Const.origin_example_filename
 
-    print Const.triple_len
+    print(Const.triple_len)
     f = open(filename, 'r')
-    print filename
+    print(filename)
     content = f.readlines()
     html_doc = ' '.join(content)
     sentences_string, triples_string = utils.parse(html_doc)
@@ -104,12 +104,12 @@ def prepare(name):
         json.dump([sentences_word_id, sentence_triples_id], open(Const.example_filename, 'w'))
 
 def run_word_vectors():
-    print 'reading nyt_vec.bin'
+    print('reading nyt_vec.bin')
     all_w2vec = utils.read_vec_bin()
     words2id = utils.load_words2id()
-    print 'prepare w2vec'
+    print('prepare w2vec')
     w2vec = utils.word_vectors(words2id, all_w2vec)
-    print 'dumping'
+    print('dumping')
     json.dump(w2vec, open(Const.words_id2vector_filename, 'w'))
 
 
@@ -138,9 +138,9 @@ def show_instances(class_name=''):
     id2words = {v: k for k, v in words2id.items()}
     for sent_words_id, triples_id in zip(sentences_word_id, sentence_triples_id):
         if func(triples_id, is_relation_first=False):
-            print ' '.join([id2words[x] for x in sent_words_id])
-            print triples_id
-            print '-----------------------------------'
+            print(' '.join([id2words[x] for x in sent_words_id]))
+            print(triples_id)
+            print('-----------------------------------')
 
 
 if __name__ == '__main__':

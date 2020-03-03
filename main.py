@@ -103,9 +103,9 @@ def test_model(data, decoder, sess, show_rate, is_visualize, simple=True):
         visualize_normal_file = os.path.join(config.runner_path, 'visualize_normal_instance.txt')
         visualize_multi_file = os.path.join(config.runner_path, 'visualize_multi_instance.txt')
         visualize_overlap_file = os.path.join(config.runner_path, 'visualize_overlap_instance.txt')
-        print visualize_normal_file
-        print visualize_multi_file
-        print visualize_overlap_file
+        print(visualize_normal_file)
+        print(visualize_multi_file)
+        print(visualize_overlap_file)
         evaluation.visualize(sents_id, gold, predictes,
                              [visualize_normal_file, visualize_multi_file, visualize_overlap_file], config)
     return f1, precision, recall
@@ -195,7 +195,7 @@ if __name__ == '__main__':
     elif config.dataset_name == const.DataSet.WEBNLG:
         prepare = data_prepare.WebNLGPrepare(config)
     else:
-        print 'illegal dataset name: %s' % config.dataset_name
+        print('illegal dataset name: %s' % config.dataset_name)
         exit()
 
     decoder, sess = get_model(train_method=config.train_method, config=config)
