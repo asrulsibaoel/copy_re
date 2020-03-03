@@ -146,11 +146,11 @@ class Decoder:
         #  k-th word of i-th sentence is k+i*sentence_length. We calculate the batch_bias as follows.
         #  The sentence_length = max_sentence_length +1 because we append 'eos' at the end of each sentence.
         self.batch_bias4copy = tf.constant(
-            value=[i * (self.config.max_sentence_length + 1) for i in range(self.config.batch_size)],
+            value=[i * (self.config.max_sentence_length + 1) for i in range(int(self.config.batch_size))],
             dtype=tf.int64,
             name='batch_bias4copy')
         self.batch_bias4predict = tf.constant(
-            value=[i * (self.config.relation_number + 1) for i in range(self.config.batch_size)],
+            value=[i * (self.config.relation_number + 1) for i in range(int(self.config.batch_size))],
             dtype=tf.int64,
             name='batch_bias4predict')
 
@@ -322,7 +322,7 @@ class OneDecoder(Decoder):
                                         dtype=tf.float32)
                 logger.debug('Decoder: cell_num_units %s' % str(self.cell_num_units))
                 logger.debug('Decoder: state shape %s' % str(np.shape(decode_state)))
-                for i in range(self.config.decoder_output_max_length):
+                for i in range(int(self.config.decoder_output_max_length)):
                     logger.info('%s Decoding of %2d/%-2d' % (
                         self.decode_cell.name, i + 1, self.config.decoder_output_max_length))
                     if i > 0:
@@ -447,7 +447,7 @@ class MultiDecoder(Decoder):
                 elif self.config.cell_name == 'lstm':
                     previous_state = (tf.zeros(shape=[self.config.batch_size, self.cell_num_units], dtype=tf.float32),
                                       tf.zeros(shape=[self.config.batch_size, self.cell_num_units], dtype=tf.float32))
-                for cell_idx in range(self.decoder_cell_number):
+                for cell_idx in range(int(self.decoder_cell_number)):
                     inputs = tf.nn.embedding_lookup(go, tf.zeros(shape=[self.config.batch_size], dtype=tf.int64))
                     if self.config.cell_name == 'gru':
                         decode_state = tf.reduce_mean((self.encoder.state, previous_state), axis=0)
