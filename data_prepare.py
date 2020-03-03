@@ -123,7 +123,7 @@ def padding_a_triples(triples, config):
     triple_list = triples[:]
     max_length = config.decoder_output_max_length
     triples = [[triple_list[3 * i], triple_list[3 * i + 1], triple_list[3 * i + 2]] for i in
-               range(len(triple_list) / 3)]
+               range(int(len(triple_list)) / 3)]
     np.random.shuffle(triples)
     padded = []
     for t in triples:
@@ -133,7 +133,7 @@ def padding_a_triples(triples, config):
         padded = padded[: max_length]
     else:
         pad_triple = list(config.NA_TRIPLE)
-        for _ in range((max_length - len(triple_list)) / 3):
+        for _ in range(int((max_length - len(triple_list)) / 3)):
             padded.extend(pad_triple)
     assert len(padded) == max_length
     return padded
@@ -157,7 +157,7 @@ def change2relation_first(triples):
     new_triples = []
     for t in triples:
         new = []
-        for i in range(len(t) / 3):
+        for i in range(int(len(t)) / 3):
             new_t = [t[3 * i + 2], t[3 * i], t[3 * i + 1]]
             new.extend(new_t)
         new_triples.append(new)
@@ -224,9 +224,9 @@ def is_multi_label(triples, is_relation_first=False):
     if is_normal_triple(triples, is_relation_first):
         return False
     if is_relation_first:
-        entity_pair = [tuple(triples[3 * i + 1: 3 * i + 3]) for i in range(len(triples) / 3)]
+        entity_pair = [tuple(triples[3 * i + 1: 3 * i + 3]) for i in range(int(len(triples)) / 3)]
     else:
-        entity_pair = [tuple(triples[3 * i: 3 * i + 2]) for i in range(len(triples) / 3)]
+        entity_pair = [tuple(triples[3 * i: 3 * i + 2]) for i in range(int(len(triples)) / 3)]
     # if is multi label, then, at least one entity pair appeared more than once
     return len(entity_pair) != len(set(entity_pair))
 
@@ -256,9 +256,9 @@ def is_over_lapping(triples, is_relation_first=False):
     if is_normal_triple(triples, is_relation_first):
         return False
     if is_relation_first:
-        entity_pair = [tuple(triples[3 * i + 1: 3 * i + 3]) for i in range(len(triples) / 3)]
+        entity_pair = [tuple(triples[3 * i + 1: 3 * i + 3]) for i in range(int(len(triples)) / 3)]
     else:
-        entity_pair = [tuple(triples[3 * i: 3 * i + 2]) for i in range(len(triples) / 3)]
+        entity_pair = [tuple(triples[3 * i: 3 * i + 2]) for i in range(int(len(triples)) / 3)]
     # remove the same entity_pair, then, if one entity appear more than once, it's overlapping
     entity_pair = set(entity_pair)
     entities = []
