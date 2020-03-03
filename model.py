@@ -411,7 +411,7 @@ class MultiDecoder(Decoder):
     def set_cell(self, name, num_units):
         self.cell_num_units = num_units
         self.decode_cell = []
-        for i in range(self.decoder_cell_number):
+        for i in range(int(self.decoder_cell_number)):
             with tf.variable_scope('cell_%d' % i):
                 cell = set_rnn_cell(name, num_units)
             self.decode_cell.append(cell)
